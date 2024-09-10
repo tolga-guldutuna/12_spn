@@ -1,0 +1,17 @@
+{
+  "name": "random-video-chat",
+  "version": "1.0.0",
+  "description": "A simple WebRTC project for random video chatting",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "open": "^8.4.0",
+    "random-video-chat": "file:",
+    "socket.io": "^4.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

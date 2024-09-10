@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Müşteri Temsilcisi Görüşmesi</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="top-bar">
+    <div class="logo">
+        <img src="logo.png" alt="Global Bilgi Logo" />
+    </div>
+    <div class="status-info">
+        <span id="cameraStatus" data-status="off">Kamera: Kapalı</span>
+        <span id="micStatus" data-status="off">Mikrofon: Kapalı</span>
+        <span id="repStatus" data-status="offline">Temsilci: Offline</span>
+        <span id="callTimer">00:00:00</span>
+    </div>
+    <div class="link-info">
+        <input type="text" id="roomLink" value="" placeholder="Link oluşturun" readonly>
+        <button id="generateLinkButton" class="control-button">Linki Oluştur</button>
+        <button id="copyButton" class="control-button">Linki Kopyala</button>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="video-section">
+        <video id="remoteVideo" autoplay playsinline></video>
+        <div class="pip-container">
+            <video id="localVideo" autoplay muted playsinline></video>
+        </div>
+    </div>
+
+    <div class="customer-info">
+        <h3>Randevu Bilgileri</h3>
+        <div class="info-block">
+            <label for="appointmentDate">Randevu Tarihi</label>
+            <input type="text" id="appointmentDate" value="26.07.2024 12:21" readonly>
+        </div>
+        <h3>Müşteri Bilgileri</h3>
+        <div class="info-block">
+            <label for="customerName">Müşteri Adı</label>
+            <input type="text" id="customerName" value="Nergiz" readonly>
+        </div>
+        <div class="info-block">
+            <label for="customerEmail">E-Posta</label>
+            <input type="text" id="customerEmail" value="nergiz.ercivan@globalbilgi.com.tr" readonly>
+        </div>
+        <button id="saveButton" class="control-button">Kaydet</button>
+    </div>
+</div>
+
+<div class="bottom-controls">
+    <button id="startButton" class="control-button">Görüşmeyi Başlat</button>
+    <button id="muteAudioButton" class="control-button">Ses Kapat</button>
+    <button id="muteVideoButton" class="control-button">Kamera Kapat</button>
+    <button id="hangupButton" class="control-button">Görüşmeyi Sonlandır</button>
+</div>
+
+<script src="node_modules/socket.io/client-dist/socket.io.js"></script>
+<script src="client.js"></script>
+</body>
+</html>

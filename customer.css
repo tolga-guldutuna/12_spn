@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    padding-top: 10px;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1e1e1e; /* Daha koyu ve modern bir arka plan rengi */
+    color: #f0f0f0;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 18px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-bar {
+    display: flex;
+    justify-content: space-between; /* Öğeler arasında boşluk oluşturur */
+    width: 50%; /* Status bar genişliği */
+    font-size: 16px;
+    margin: 0 auto; /* Ortalanmış bar */
+}
+
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background-color: #333333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    margin-right: 100px;
+}
+
+.status-item span {
+    font-weight: bold;
+}
+
+.status-item i {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ffc107; /* Başlangıçta sarı */
+    transition: background-color 0.3s;
+}
+
+#cameraStatus[data-status="off"] .status-indicator,
+#micStatus[data-status="off"] .status-indicator {
+    background-color: #dc3545; /* Kapalı iken kırmızı */
+}
+
+#cameraStatus[data-status="on"] .status-indicator,
+#micStatus[data-status="on"] .status-indicator {
+    background-color: #28a745; /* Açıkken yeşil */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    margin-top: 60px;
+}
+
+.video-container {
+    position: relative;
+    width: 90%;
+    height: 75vh;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #8E8E8E; /* Status bar ile uyumlu çerçeve */
+    border-radius: 5px;
+    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Gölge efekti *!*/
+}
+
+#localVideo {
+    position: absolute;
+    width: 200px;
+    height: 150px;
+    top: 10px;
+    right: 10px;
+    background-color: black;
+    background-image: url("img.png");
+    background-repeat: no-repeat;
+    background-size: 198px 147px;
+    border: 1px solid #8E8E8E;
+    object-fit: cover;
+}
+
+#remoteVideo {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    object-fit: cover;
+}
+
+.controls {
+    margin-top: 30px;
+}
+
+.control-button {
+    padding: 12px 25px;
+    margin: 0 10px;
+    border: none;
+    background-color: rgba(0, 123, 255, 0.8);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.control-button:hover {
+    background-color: rgba(0, 123, 255, 0.6);
+    transform: translateY(-3px);
+}
+
+.control-button:active {
+    background-color: rgba(0, 123, 255, 1);
+}
+
+.control-button:disabled {
+    background-color: rgba(204, 204, 204, 0.7);
+    cursor: not-allowed;
+}
