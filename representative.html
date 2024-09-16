@@ -4,26 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Müşteri Temsilcisi Görüşmesi</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/assets/css/representative.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="top-bar">
     <div class="logo">
-        <img src="logo.png" alt="Global Bilgi Logo" />
+        <img src="/assets/img/logo.png" alt="Global Bilgi Logo"/>
     </div>
     <div class="status-info">
-        <span id="cameraStatus" data-status="off">Kamera: Kapalı</span>
-        <span id="micStatus" data-status="off">Mikrofon: Kapalı</span>
-        <span id="repStatus" data-status="offline">Temsilci: Offline</span>
-        <span id="callTimer">00:00:00</span>
+        <div class="status-item" id="cameraStatus" data-status="none">
+            <i class="fas fa-video"></i>
+            <span>Kamera:</span>
+            <div class="status-indicator"></div>
+            <span id="cameraText">Kapalı</span>
+        </div>
+        <div class="status-item" id="micStatus" data-status="none">
+            <i class="fas fa-microphone"></i>
+            <span>Mikrofon:</span>
+            <div class="status-indicator"></div>
+            <span id="micText">Kapalı</span>
+        </div>
+        <div class="status-item">
+            <i class="fas fa-user"></i>
+            <span>Temsilci</span>
+            <span id="repStatus">: Çevrimdışı</span>
+        </div>
+        <div class="status-item">
+            <i class="fas fa-clock"></i>
+            <span id="callTimer">Süre: 00:00</span>
+        </div>
     </div>
-    <div class="link-info">
-        <input type="text" id="roomLink" value="" placeholder="Link oluşturun" readonly>
-        <button id="generateLinkButton" class="control-button">Linki Oluştur</button>
-        <button id="copyButton" class="control-button">Linki Kopyala</button>
+    <div class="logout-side">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <button id="logout" class="control-button">Çıkış</button>
     </div>
 </div>
-
 <div class="main-content">
     <div class="video-section">
         <video id="remoteVideo" autoplay playsinline></video>
@@ -31,34 +47,46 @@
             <video id="localVideo" autoplay muted playsinline></video>
         </div>
     </div>
-
     <div class="customer-info">
-        <h3>Randevu Bilgileri</h3>
-        <div class="info-block">
-            <label for="appointmentDate">Randevu Tarihi</label>
-            <input type="text" id="appointmentDate" value="26.07.2024 12:21" readonly>
+        <div id="appointmentCustomerSection">
+            <h3>Randevu Bilgileri</h3>
+            <div class="info-block">
+                <label for="appointmentDate">Randevu Tarihi</label>
+                <input type="date" id="appointmentDate" value="2024-09-06">
+            </div>
+            <h3>Müşteri Bilgileri</h3>
+            <div class="info-block">
+                <label for="customerName">Müşteri Adı</label>
+                <input type="text" id="customerName" value="Nergiz">
+            </div>
+            <div class="info-block">
+                <label for="customerEmail">E-Posta</label>
+                <input type="email" id="customerEmail" value="nergiz.ercivan@globalbilgi.com.tr">
+            </div>
+            <button id="saveButton" class="control-button">Kaydet</button>
         </div>
-        <h3>Müşteri Bilgileri</h3>
-        <div class="info-block">
-            <label for="customerName">Müşteri Adı</label>
-            <input type="text" id="customerName" value="Nergiz" readonly>
+        <button id="randevuAyarlamaButton" class="control-button" style="display: none;">Randevu Ayarla</button>
+        <div id="infoMessageAppointment" style="display:none; background-color: #d9edf7; color: #31708f; padding: 10px; margin: 10px 0; border: 1px solid #bce8f1; border-radius: 4px;">
+            Randevu bilgileri kaydedildi!
         </div>
-        <div class="info-block">
-            <label for="customerEmail">E-Posta</label>
-            <input type="text" id="customerEmail" value="nergiz.ercivan@globalbilgi.com.tr" readonly>
-        </div>
-        <button id="saveButton" class="control-button">Kaydet</button>
     </div>
 </div>
-
 <div class="bottom-controls">
-    <button id="startButton" class="control-button">Görüşmeyi Başlat</button>
-    <button id="muteAudioButton" class="control-button">Ses Kapat</button>
-    <button id="muteVideoButton" class="control-button">Kamera Kapat</button>
-    <button id="hangupButton" class="control-button">Görüşmeyi Sonlandır</button>
+    <button id="startButton" class="control-button" onclick="this.disabled=true;">Görüşmeyi Başlat</button>
+    <button id="muteButton" class="control-button" disabled>Mikrofonu Kapat</button>
+    <button id="cameraButton" class="control-button" disabled>Kamerayı Kapat</button>
+    <button id="hangupButton" class="control-button" disabled onclick="this.disabled=true;">Görüşmeyi Sonlandır</button>
+    <div class="link-info">
+        <i class="fa-solid fa-link"></i>
+        <input type="text" id="roomLink" value="" placeholder="Link oluşturun" readonly>
+        <button id="generateLinkButton" class="control-button">Linki Oluştur</button>
+        <button id="copyButton" class="control-button">Linki Kopyala</button>
+    </div>
+    <div id="infoMessage" style="display:none; background-color: #d9edf7; color: #31708f; padding: 10px; margin: 10px 0; border: 1px solid #bce8f1; border-radius: 4px;">
+        Link kopyalandı!
+    </div>
 </div>
-
-<script src="node_modules/socket.io/client-dist/socket.io.js"></script>
-<script src="client.js"></script>
+<script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
+<script src="/client.js"></script>
 </body>
 </html>

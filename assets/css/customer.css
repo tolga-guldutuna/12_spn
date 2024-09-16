@@ -20,25 +20,31 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #1e1e1e; /* Daha koyu ve modern bir arka plan rengi */
+    background-color: #1e1e1e;
     color: #f0f0f0;
-    text-align: center;
     padding: 10px 0;
     font-size: 18px;
     z-index: 1000;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* For responsive header */
+}
+
+.logo img {
+    height: 45px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.logo img:hover {
+    transform: scale(1.05);
 }
 
 .status-bar {
     display: flex;
-    justify-content: space-between; /* Öğeler arasında boşluk oluşturur */
-    width: 50%; /* Status bar genişliği */
-    font-size: 16px;
-    margin: 0 auto; /* Ortalanmış bar */
+    justify-content: left;
+    width: 60%;
 }
-
 
 .status-item {
     display: flex;
@@ -49,7 +55,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s;
-    margin-right: 100px;
+    margin-right: 10px;
 }
 
 .status-item span {
@@ -66,18 +72,18 @@ body {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: #ffc107; /* Başlangıçta sarı */
+    background-color: #ffc107;
     transition: background-color 0.3s;
 }
 
-#cameraStatus[data-status="off"] .status-indicator,
-#micStatus[data-status="off"] .status-indicator {
-    background-color: #dc3545; /* Kapalı iken kırmızı */
+#customerCameraStatus[data-status="off"] .status-indicator,
+#customerMicStatus[data-status="off"] .status-indicator {
+    background-color: #dc3545;
 }
 
-#cameraStatus[data-status="on"] .status-indicator,
-#micStatus[data-status="on"] .status-indicator {
-    background-color: #28a745; /* Açıkken yeşil */
+#customerCameraStatus[data-status="on"] .status-indicator,
+#customerMicStatus[data-status="on"] .status-indicator {
+    background-color: #28a745;
 }
 
 .container {
@@ -98,9 +104,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #8E8E8E; /* Status bar ile uyumlu çerçeve */
+    border: 2px solid #8E8E8E;
     border-radius: 5px;
-    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Gölge efekti *!*/
 }
 
 #localVideo {
@@ -110,7 +115,7 @@ body {
     top: 10px;
     right: 10px;
     background-color: black;
-    background-image: url("img.png");
+    background-image: url("/assets/img/avatar.png");
     background-repeat: no-repeat;
     background-size: 198px 147px;
     border: 1px solid #8E8E8E;
@@ -121,6 +126,10 @@ body {
     width: 100%;
     height: 100%;
     background-color: black;
+    background-image: url("/assets/img/avatar.png");
+    background-size: 800px 600px;
+    background-repeat: no-repeat;
+    background-position: center;
     object-fit: cover;
 }
 
@@ -153,4 +162,78 @@ body {
 .control-button:disabled {
     background-color: rgba(204, 204, 204, 0.7);
     cursor: not-allowed;
+}
+
+/* Responsive Media Queries */
+@media screen and (max-width: 1024px) {
+    .header {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .status-item {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .video-container {
+        width: 95%;
+        height: 70vh;
+    }
+
+    #localVideo {
+        width: 150px;
+        height: 100px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .video-container {
+        width: 100%;
+        height: 60vh;
+    }
+
+    .status-item {
+        padding: 4px 8px;
+        font-size: 14px;
+    }
+
+    .control-button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .control-button {
+        font-size: 12px;
+        padding: 8px 15px;
+    }
+
+    .logo img {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    #localVideo {
+        width: 120px;
+        height: 90px;
+    }
+
+    .video-container {
+        height: 50vh;
+    }
+
+    .status-item {
+        gap: 4px;
+        font-size: 12px;
+    }
 }

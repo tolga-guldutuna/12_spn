@@ -1,30 +1,40 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const path = require('path');
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
+const express = require('express');
+const socketIo = require('socket.io');
+const open = require('open');
+const apiUrl = process.env.API_URL;
 const app = express();
-const server = http.createServer(app);
+let server= null;
+
+if (process.env.NODE_ENV === 'production') {
+    console.log("Production ortamında çalışıyor.");
+    const https = require('https');
+
+    const options = {
+        key: fs.readFileSync('/usr/share/tolga/usr/share/tolga/2/server.key'),
+        cert: fs.readFileSync('/usr/share/tolga/usr/share/tolga/2/server.crt')
+    };
+
+    server = https.createServer(options, app);
+} else {
+    console.log("Development ortamında çalışıyor.");
+    const http = require('http');
+    server = http.createServer(app);
+}
+
+console.log("API URL:", apiUrl);
 const io = socketIo(server);
 
-// Public klasörünü statik dosyalar için ayarlayın
-app.use(express.static(path.join(__dirname, '../public')));
-
-// React Router'ın yönlendirmelerini ele almak için
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'), (err) => {
-        if (err) {
-            res.status(500).send(err);
-        }
-    });
-});
+app.use(express.static(__dirname));
 
 io.on('connection', (socket) => {
-    console.log('Yeni bağlantı:', socket.id);
+    console.log('A user connected');
 
     socket.on('join-room', (roomId) => {
         socket.join(roomId);
-        console.log(`${socket.id} oda ${roomId}'a katıldı.`);
+        socket.emit('room-joined', roomId);
+        console.log(`User joined room: ${roomId}`);
     });
 
     socket.on('offer', ({ offer, roomId }) => {
@@ -32,19 +42,24 @@ io.on('connection', (socket) => {
     });
 
     socket.on('answer', ({ answer, roomId }) => {
-        socket.to(roomId).emit('answer', { answer });
+        socket.to(roomId).emit('answer', { answer, roomId });
     });
 
     socket.on('ice-candidate', ({ candidate, roomId }) => {
-        socket.to(roomId).emit('ice-candidate', { candidate });
+        socket.to(roomId).emit('ice-candidate', { candidate, roomId });
+    });
+
+    socket.on('leave-room', (roomId) => {
+        socket.leave(roomId);
+        console.log(`User left room: ${roomId}`);
     });
 
     socket.on('disconnect', () => {
-        console.log('Bağlantı koptu:', socket.id);
+        console.log('A user disconnected');
     });
 });
 
-const PORT = process.env.PORT || 8095;
-server.listen(PORT, () => {
-    console.log(`Sunucu ${PORT} portunda çalışıyor...`);
+server.listen(8095, () => {
+    console.log('Server is listening on port 8095');
+    open('http://localhost:8095/representative.html'); // Temsilci sayfasını otomatik açar
 });
